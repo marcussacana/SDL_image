@@ -2,6 +2,12 @@
 
 set(_inc_suffixes include)
 set(_lib_suffixes)
+
+if(PS4 OR ORBIS)
+    list(APPEND _lib_suffixes "/")
+    list(APPEND _inc_suffixes "/include")
+endif()
+
 if(MSVC)
     if(CMAKE_SIZEOF_VOID_P EQUAL 4)
         list(APPEND _lib_suffixes "lib/x86")

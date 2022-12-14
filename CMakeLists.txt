@@ -44,13 +44,13 @@ include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
 option(CMAKE_POSITION_INDEPENDENT_CODE "Build static libraries with -fPIC" ON)
-option(BUILD_SHARED_LIBS "Build the library as a shared library" ON)
+option(BUILD_SHARED_LIBS "Build the library as a shared library" OFF)
 
-option(SDL2IMAGE_INSTALL "Enable SDL2_image install target" ON)
+option(SDL2IMAGE_INSTALL "Enable SDL2_image install target" OFF)
 option(SDL2IMAGE_DEPS_SHARED "Load dependencies dynamically" ON)
 option(SDL2IMAGE_VENDORED "Use vendored third-party libraries" ${vendored_default})
 
-option(SDL2IMAGE_SAMPLES "Build the SDL2_image sample program(s)" ON)
+option(SDL2IMAGE_SAMPLES "Build the SDL2_image sample program(s)" OFF)
 cmake_dependent_option(SDL2IMAGE_SAMPLES_INSTALL "Install the SDL2_image sample program(s)" OFF "SDL2IMAGE_SAMPLES;SDL2IMAGE_INSTALL" OFF)
 
 option(SDL2IMAGE_TESTS "Build unit tests?" OFF)
@@ -780,4 +780,9 @@ endif()
 if(SDL2IMAGE_TESTS)
     enable_testing()
     add_subdirectory(test)
+endif()
+
+if(PS4 OR ORBIS)
+  include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ps4sdk.cmake)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DPS4 -D__ORBIS__")
 endif()
